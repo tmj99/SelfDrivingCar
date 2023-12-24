@@ -1,9 +1,9 @@
-import smbus
+import smbus2
 import time
 class Adc:
     def __init__(self):
         # Get I2C bus
-        self.bus = smbus.SMBus(1)
+        self.bus = smbus2.SMBus(1)
         
         # I2C address of the device
         self.ADDRESS            = 0x48
