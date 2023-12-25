@@ -130,9 +130,9 @@ def start_session():
                     elif event.key == pygame.K_d:
                         PWM.setMotorModel(2000,2000,-1000,-1000)
                         print("Rotating right ... ")
-                elif event.type == pygame.KEYUP:
-                    if event.key in (pygame.K_w, pygame.K_s, pygame.K_a, pygame.K_d):
+                    elif event.key == pygame.K_SPACE:
                         PWM.setMotorModel(0,0,0,0)
+                        print("Stopping ...")
 
     except KeyboardInterrupt:
         PWM.setMotorModel(0,0,0,0)
