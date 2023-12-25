@@ -49,20 +49,20 @@ def forward():
     time.sleep(0.75)
     PWM.setMotorModel(0,0,0,0)
 
-def backward(speed):
+def backward():
     PWM.setMotorModel(-1000,-1000,-1000,-1000)
     print("Backward ...")
     time.sleep(0.75)
     PWM.setMotorModel(0,0,0,0)
 
-def roleft(degree):
-    PWM.Rotate(degree)
-    print("Rotating {} degrees to the left ... ".format(degree))
+def roleft():
+    PWM.setMotorModel(0,0,1500,1500)
+    print("Rotating left ... ")
     PWM.setMotorModel(0,0,0,0)
 
-def roright(degree):
-    PWM.Rotate(-degree)
-    print("Rotating {} degrees to the left ... ".format(degree))
+def roright():
+    PWM.setMotorModel(1500,1500,0,0)
+    print("Rotating right ... ")
     PWM.setMotorModel(0,0,0,0)
 
 def start_session():
@@ -84,10 +84,10 @@ def start_session():
                         backward()
                     
                     elif event.key == pygame.K_a:
-                        roleft(45)
+                        roleft()
                     
                     elif event.key == pygame.K_d:
-                        roright(45)
+                        roright()
                     
                     elif event.key == pygame.K_q:
                         PWM.setMotorModel(0,0,0,0)
