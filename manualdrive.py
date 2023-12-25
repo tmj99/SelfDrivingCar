@@ -46,24 +46,28 @@ PWM = Motor()
 def accelerate(speed):
     speed = [number + 500 for number in speed]
     print("Accelerate ...")
+    return speed
 
 def deccelerate(speed):
     speed = [number - 500 for number in speed]
     print("Deccelerate ...")
+    return speed
 
 def roleft(speed):
     speed[0] -= 500
     speed[1] -= 500
+    speed[2] += 500
     speed[3] += 500
-    speed[4] += 500
     print("Rotate left ...")
+    return speed
 
 def roright(speed):
     speed[0] += 500
     speed[1] += 500
+    speed[2] -= 500
     speed[3] -= 500
-    speed[4] -= 500
     print("Rotate right ...")
+    return speed
 
 def start_session():
 
@@ -78,16 +82,16 @@ def start_session():
             for event in pygame.event.get():
                 if event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_w:
-                        accelerate(speeds)
+                        speeds = accelerate(speeds)
                     
                     elif event.key == pygame.K_s:
-                        deccelerate(speeds)
+                        speeds = deccelerate(speeds)
                     
                     elif event.key == pygame.K_a:
-                        roleft(speeds)
+                        speeds = roleft(speeds)
                     
                     elif event.key == pygame.K_d:
-                        roright(speeds)
+                        speeds = roright(speeds)
                     
                     elif event.key == pygame.K_q:
                         PWM.setMotorModel(0,0,0,0)
