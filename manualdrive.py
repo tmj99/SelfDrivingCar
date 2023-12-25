@@ -67,7 +67,7 @@ def roright(speed):
 
 def start_session():
 
-    speeds = [500,500,500,500]
+    speeds = [0,0,0,0]
 
     try:
         while True:
