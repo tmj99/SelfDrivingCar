@@ -41,7 +41,7 @@ PWM = Motor()
 
 def start_session():
 
-    speeds = [100,100,100,100]
+    speeds = [1000,1000,1000,1000]
 
     try:
         while True:
