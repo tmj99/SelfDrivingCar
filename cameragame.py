@@ -16,7 +16,7 @@ screen = pygame.display.set_mode((screen_width, screen_height))
 clock = pygame.time.Clock()
 
 # Initialize the Raspberry Pi Camera
-camera = PiCamera2()
+camera = Picamera2()
 camera.resolution = (screen_width, screen_height)
 
 try:
