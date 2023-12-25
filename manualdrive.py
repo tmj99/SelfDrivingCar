@@ -114,7 +114,7 @@ def start_session():
             for event in pygame.event.get():
                 if event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_w:
-                        PWM.setMotorModel(-1000,-1000,-1000,-1000)
+                        PWM.setMotorModel(1000,1000,1000,1000)
                         print("Forward ...")
                     elif event.key == pygame.K_s:
                         PWM.setMotorModel(-1000,-1000,-1000,-1000)
