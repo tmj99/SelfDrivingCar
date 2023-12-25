@@ -1,9 +1,10 @@
+#!/usr/bin/python3
+
 """
+S T R E A M I N G
 This section enables the visual of the car to be streamed at
 https:// <ip of the pi> :8000/stream.mjpg
 """
-
-#!/usr/bin/python3
 
 # Mostly copied from https://picamera.readthedocs.io/en/release-1.13/recipes2.html
 # Run this script, then point a web browser at http:<this-ip-address>:8000
@@ -94,6 +95,7 @@ output = StreamingOutput()
 picam2.start_recording(JpegEncoder(), FileOutput(output))
 
 """
+C O N T R O L S
 This section is mainly for the controls of the car
 Will try to get the webstream to be able to get controls of the car
 """
