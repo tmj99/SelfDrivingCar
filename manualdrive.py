@@ -109,25 +109,25 @@ PWM = Motor()
 def forward():
     PWM.setMotorModel(1000,1000,1000,1000)
     print("Forward ...")
-    time.sleep(0.75)
+    time.sleep(1)
     PWM.setMotorModel(0,0,0,0)
 
 def backward():
     PWM.setMotorModel(-1000,-1000,-1000,-1000)
     print("Backward ...")
-    time.sleep(0.75)
+    time.sleep(1)
     PWM.setMotorModel(0,0,0,0)
 
 def roleft():
-    PWM.setMotorModel(0,0,1500,1500)
+    PWM.setMotorModel(-500,0,1500,1500)
     print("Rotating left ... ")
-    time.sleep(0.75)
+    time.sleep(1.5)
     PWM.setMotorModel(0,0,0,0)
 
 def roright():
-    PWM.setMotorModel(1500,1500,0,0)
+    PWM.setMotorModel(1500,1500,-500,0)
     print("Rotating right ... ")
-    time.sleep(0.75)
+    time.sleep(1.5)
     PWM.setMotorModel(0,0,0,0)
 
 def start_session():
