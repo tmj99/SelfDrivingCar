@@ -36,18 +36,32 @@ This section is mainly for the controls of the car
 """
 
 from Motor import *
+import pygame
+
+pygame.init()
 
 PWM = Motor()
 
 def start_session():
 
-    speeds = [1000,1000,1000,1000]
+    speeds = [500,500,500,500]
 
     try:
         while True:
             PWM.setMotorModel(speeds[0],speeds[1],speeds[2],speeds[3])
             time.sleep(1)
             print("Speed of:",speeds)
+
+            for event in pygame.event.get():
+                if event.type == pygame.KEYDOWN:
+                    if event.key == pygame.K_w:
+                        print("Accelerate ...")
+                    elif event.key == pygame.K_s:
+                        print("Deccelerate ...")
+                    elif event.key == pygame.K_a:
+                        print("Rotate left ...")
+                    elif event.key == pygame.K_d:
+                        print("Rotate right ...")
 
     except KeyboardInterrupt:
         PWM.setMotorModel(0,0,0,0)
