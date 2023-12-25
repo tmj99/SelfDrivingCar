@@ -106,58 +106,6 @@ screen = pygame.display.set_mode((100,100))
 
 PWM = Motor()
 
-def forward():
-    PWM.setMotorModel(1000,1000,1000,1000)
-    print("Forward ...")
-    time.sleep(1)
-    PWM.setMotorModel(0,0,0,0)
-
-def backward():
-    PWM.setMotorModel(-1000,-1000,-1000,-1000)
-    print("Backward ...")
-    time.sleep(1)
-    PWM.setMotorModel(0,0,0,0)
-
-def roleft():
-    PWM.setMotorModel(-1000,-1000,2000,2000)
-    print("Rotating left ... ")
-    time.sleep(1.5)
-    PWM.setMotorModel(0,0,0,0)
-
-# ### start of testing module ###
-
-# def roleft1():
-#     PWM.setMotorModel(750,750,1500,1500)
-#     print("Rotating left 1 ... ")
-#     time.sleep(1)
-#     PWM.setMotorModel(0,0,0,0)
-
-# def roleft2():
-#     PWM.setMotorModel(1000,1000,2000,2000)
-#     print("Rotating left 2 ... ")
-#     time.sleep(1)
-#     PWM.setMotorModel(0,0,0,0)
-
-# def roleft3():
-#     PWM.setMotorModel(-1000,-1000,2000,2000)
-#     print("Rotating left 3 ... ")
-#     time.sleep(1)
-#     PWM.setMotorModel(0,0,0,0)
-
-"""
-results of test:
-roleft3() worked the best, giving the best turning.
-Will keep this from now
-"""
-
-# ### end of testing module ###
-
-def roright():
-    PWM.setMotorModel(2000,2000,-1000,-1000)
-    print("Rotating right ... ")
-    time.sleep(1.5)
-    PWM.setMotorModel(0,0,0,0)
-
 def start_session():
 
     speeds = [0,0,0,0]
@@ -171,37 +119,25 @@ def start_session():
             for event in pygame.event.get():
                 if event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_w:
-                        forward()
-                    
+                        PWM.setMotorModel(-1000,-1000,-1000,-1000)
+                        print("Forward ...")
                     elif event.key == pygame.K_s:
-                        backward()
-                    
+                        PWM.setMotorModel(-1000,-1000,-1000,-1000)
+                        print("Backward ...")
                     elif event.key == pygame.K_a:
-                        roleft()
-                    
-                    # #tests
-                    # elif event.key == pygame.K_b:
-                    #     roleft1()
-                    # elif event.key == pygame.K_n:
-                    #     roleft2()
-                    # elif event.key == pygame.K_m:
-                    #     roleft3()
-                    # #end of tests
-
+                        PWM.setMotorModel(-1000,-1000,2000,2000)
+                        print("Rotating left ... ")
                     elif event.key == pygame.K_d:
-                        roright()
-                    
-                    elif event.key == pygame.K_q:
+                        PWM.setMotorModel(2000,2000,-1000,-1000)
+                        print("Rotating right ... ")
+                elif event.type == pygame.KEYUP:
+                    if event.key in (pygame.K_w, pygame.K_s, pygame.K_a, pygame.K_d):
                         PWM.setMotorModel(0,0,0,0)
-                        print("Quiting ...")
-                        return
 
     except KeyboardInterrupt:
         PWM.setMotorModel(0,0,0,0)
         print ("\nEnd of program")
         return
-
-
 
 if __name__ == '__main__':
     # ... (Rest of the code for streaming setup)
