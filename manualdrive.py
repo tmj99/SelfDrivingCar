@@ -39,52 +39,18 @@ from Motor import *
 
 PWM = Motor()
 
-# class speed:
-#     def __init__(self,speeds):
-#         self.frontleft = speeds[0]
-#         self.rearleft = speeds[1]
-#         self.frontright = speeds[2]
-#         self.rearright = speeds[3]
-
-#     def accelerate(self, speeds):
-#         speeds[0] += 100
-#         speeds[1] += 100
-#         speeds[2] += 100
-#         speeds[3] += 100
-#         print("Accelerating ...")
-
-#     def deccelerate(self, speeds):
-#         speeds[0] -= 100
-#         speeds[1] -= 100
-#         speeds[2] -= 100
-#         speeds[3] -= 100
-#         print("Deccelerating ...")
-
-#     def roleft(self, speeds):
-#         speeds[2] += 100
-#         speeds[3] += 100
-#         print("Rotating left ...")
-
-#     def roright(self, speeds):
-#         speeds[0] += 100
-#         speeds[1] += 100
-#         print("Rotating right ...")
-
-def setspeed(f, speed):
-    a,b,c,d = speed
-    f(a,b,c,d)
-
 def start_session():
 
     speeds = [100,100,100,100]
 
-    while True:
-        setspeed(PWM.setMotorModel, speeds)
-        print("Speed of:",speeds)
+    try:
+        while True:
+            PWM.setMotorModel(speeds[0],speeds[1],speeds[2],speeds[3])
+            print("Speed of:",speeds)
 
-        if KeyboardInterrupt:
-            PWM.setMotorModel(0,0,0,0)
-            print ("\nEnd of program")
-            return
+    except KeyboardInterrupt:
+        PWM.setMotorModel(0,0,0,0)
+        print ("\nEnd of program")
+        return
 
 start_session()
