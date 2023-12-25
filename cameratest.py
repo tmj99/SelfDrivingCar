@@ -84,7 +84,7 @@ class StreamingServer(socketserver.ThreadingMixIn, server.HTTPServer):
 
 
 picam2 = Picamera2()
-picam2.resolution = picam2.MAX_RESOLUTION
+picam2.resolution = (1920×1080)
 picam2.configure(picam2.create_video_configuration(main={"size": picam2.resolution}))
 output = StreamingOutput()
 picam2.start_recording(JpegEncoder(), FileOutput(output))
