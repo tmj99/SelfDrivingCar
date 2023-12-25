@@ -13,7 +13,7 @@ import io
 import logging
 import socketserver
 from http import server
-from threading import Condition
+from threading import Condition, Thread
 
 from picamera2 import Picamera2
 from picamera2.encoders import JpegEncoder
@@ -167,7 +167,10 @@ def start_session():
 if __name__ == '__main__':
     # ... (Rest of the code for streaming setup)
 
-    start_session()
+    car_control_thread = Thread(target=start_session)
+
+    # Start the car control thread
+    car_control_thread.start()
 
     try:
         address = ('', 8000)
