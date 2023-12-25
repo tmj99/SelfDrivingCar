@@ -108,14 +108,9 @@ PWM = Motor()
 
 def start_session():
 
-    speeds = [0,0,0,0]
-
     try:
         while True:
-            PWM.setMotorModel(speeds[0],speeds[1],speeds[2],speeds[3])
-            time.sleep(1)
-            print("Speed of:",speeds)
-
+            # print("Speed of:",speeds)
             for event in pygame.event.get():
                 if event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_w:
