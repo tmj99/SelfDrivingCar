@@ -44,11 +44,11 @@ screen = pygame.display.set_mode((100,100))
 PWM = Motor()
 
 def accelerate(speed):
-    speed += 500
+    speed = [number + 500 for number in speed]
     print("Accelerate ...")
 
 def deccelerate(speed):
-    speed -= 500
+    speed = [number - 500 for number in speed]
     print("Deccelerate ...")
 
 def roleft(speed):
