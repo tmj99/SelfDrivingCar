@@ -35,7 +35,7 @@
 This section is mainly for the controls of the car
 """
 
-from Code.Server.Motor import *
+from Motor import *
 
 PWM = Motor()
 
