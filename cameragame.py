@@ -1,45 +1,49 @@
-import pygame
-from picamera2 import Picamera2
-import io
+from picamera2 import Picamera2, Preview
+picam2 = Picamera2()
+picam2.start_preview(Preview.QT)
 
-# Initialize Pygame
-pygame.init()
+# import pygame
+# from picamera2 import Picamera2
+# import io
 
-# Set the screen dimensions (adjust as needed)
-screen_width = 640
-screen_height = 480
+# # Initialize Pygame
+# pygame.init()
 
-# Create a Pygame display window
-screen = pygame.display.set_mode((screen_width, screen_height))
+# # Set the screen dimensions (adjust as needed)
+# screen_width = 640
+# screen_height = 480
 
-# Create a Pygame clock to control frame rate
-clock = pygame.time.Clock()
+# # Create a Pygame display window
+# screen = pygame.display.set_mode((screen_width, screen_height))
 
-# Initialize the Raspberry Pi Camera
-camera = Picamera2()
-camera.resolution = (screen_width, screen_height)
+# # Create a Pygame clock to control frame rate
+# clock = pygame.time.Clock()
 
-try:
-    while True:
-        # Capture an image from the camera
-        stream = io.BytesIO()
-        camera.capture(stream, format='jpeg')
-        stream.seek(0)
-        image = pygame.image.load(io.BytesIO(stream.read()))
+# # Initialize the Raspberry Pi Camera
+# camera = Picamera2()
+# camera.resolution = (screen_width, screen_height)
 
-        # Display the captured image on the Pygame screen
-        screen.blit(image, (0, 0))
-        pygame.display.flip()
+# try:
+#     while True:
+#         # Capture an image from the camera
+#         stream = io.BytesIO()
+#         camera.capture(stream, format='jpeg')
+#         stream.seek(0)
+#         image = pygame.image.load(io.BytesIO(stream.read()))
 
-        # Check for quit events (e.g., closing the Pygame window)
-        for event in pygame.event.get():
-            if event.type == pygame.QUIT:
-                pygame.quit()
-                quit()
+#         # Display the captured image on the Pygame screen
+#         screen.blit(image, (0, 0))
+#         pygame.display.flip()
 
-        # Control the frame rate (adjust as needed)
-        clock.tick(30)
+#         # Check for quit events (e.g., closing the Pygame window)
+#         for event in pygame.event.get():
+#             if event.type == pygame.QUIT:
+#                 pygame.quit()
+#                 quit()
 
-except KeyboardInterrupt:
-    # Clean up and exit the program on KeyboardInterrupt (Ctrl+C)
-    pygame.quit()
+#         # Control the frame rate (adjust as needed)
+#         clock.tick(30)
+
+# except KeyboardInterrupt:
+#     # Clean up and exit the program on KeyboardInterrupt (Ctrl+C)
+#     pygame.quit()
