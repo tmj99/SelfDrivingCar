@@ -43,6 +43,28 @@ screen = pygame.display.set_mode((100,100))
 
 PWM = Motor()
 
+def accelerate(speed):
+    speed += 500
+    print("Accelerate ...")
+
+def deccelerate(speed):
+    speed -= 500
+    print("Deccelerate ...")
+
+def roleft(speed):
+    speed[0] -= 500
+    speed[1] -= 500
+    speed[3] += 500
+    speed[4] += 500
+    print("Rotate left ...")
+
+def roright(speed):
+    speed[0] += 500
+    speed[1] += 500
+    speed[3] -= 500
+    speed[4] -= 500
+    print("Rotate right ...")
+
 def start_session():
 
     speeds = [500,500,500,500]
@@ -56,13 +78,21 @@ def start_session():
             for event in pygame.event.get():
                 if event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_w:
-                        print("Accelerate ...")
+                        accelerate(speeds)
+                    
                     elif event.key == pygame.K_s:
-                        print("Deccelerate ...")
+                        deccelerate(speeds)
+                    
                     elif event.key == pygame.K_a:
-                        print("Rotate left ...")
+                        roleft(speeds)
+                    
                     elif event.key == pygame.K_d:
-                        print("Rotate right ...")
+                        roright(speeds)
+                    
+                    elif event.key == pygame.K_q:
+                        PWM.setMotorModel(0,0,0,0)
+                        print("Quiting ...")
+                        return
 
     except KeyboardInterrupt:
         PWM.setMotorModel(0,0,0,0)
