@@ -46,6 +46,7 @@ def start_session():
     try:
         while True:
             PWM.setMotorModel(speeds[0],speeds[1],speeds[2],speeds[3])
+            time.sleep(1)
             print("Speed of:",speeds)
 
     except KeyboardInterrupt:
