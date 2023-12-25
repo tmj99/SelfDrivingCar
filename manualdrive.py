@@ -119,35 +119,41 @@ def backward():
     PWM.setMotorModel(0,0,0,0)
 
 def roleft():
-    PWM.setMotorModel(500,500,1500,1500)
+    PWM.setMotorModel(-1000,-1000,2000,2000)
     print("Rotating left ... ")
     time.sleep(1.5)
     PWM.setMotorModel(0,0,0,0)
 
-### start of testing module ###
+# ### start of testing module ###
 
-def roleft1():
-    PWM.setMotorModel(750,750,1500,1500)
-    print("Rotating left 1 ... ")
-    time.sleep(1)
-    PWM.setMotorModel(0,0,0,0)
+# def roleft1():
+#     PWM.setMotorModel(750,750,1500,1500)
+#     print("Rotating left 1 ... ")
+#     time.sleep(1)
+#     PWM.setMotorModel(0,0,0,0)
 
-def roleft2():
-    PWM.setMotorModel(1000,1000,2000,2000)
-    print("Rotating left 2 ... ")
-    time.sleep(1)
-    PWM.setMotorModel(0,0,0,0)
+# def roleft2():
+#     PWM.setMotorModel(1000,1000,2000,2000)
+#     print("Rotating left 2 ... ")
+#     time.sleep(1)
+#     PWM.setMotorModel(0,0,0,0)
 
-def roleft3():
-    PWM.setMotorModel(-1000,-1000,2000,2000)
-    print("Rotating left 3 ... ")
-    time.sleep(1)
-    PWM.setMotorModel(0,0,0,0)
+# def roleft3():
+#     PWM.setMotorModel(-1000,-1000,2000,2000)
+#     print("Rotating left 3 ... ")
+#     time.sleep(1)
+#     PWM.setMotorModel(0,0,0,0)
 
-### end of testing module ###
+"""
+results of test:
+roleft3() worked the best, giving the best turning.
+Will keep this from now
+"""
+
+# ### end of testing module ###
 
 def roright():
-    PWM.setMotorModel(1500,1500,500,500)
+    PWM.setMotorModel(2000,2000,-1000,-1000)
     print("Rotating right ... ")
     time.sleep(1.5)
     PWM.setMotorModel(0,0,0,0)
@@ -173,14 +179,14 @@ def start_session():
                     elif event.key == pygame.K_a:
                         roleft()
                     
-                    #tests
-                    elif event.key == pygame.K_b:
-                        roleft1()
-                    elif event.key == pygame.K_n:
-                        roleft2()
-                    elif event.key == pygame.K_m:
-                        roleft3()
-                    #end of tests
+                    # #tests
+                    # elif event.key == pygame.K_b:
+                    #     roleft1()
+                    # elif event.key == pygame.K_n:
+                    #     roleft2()
+                    # elif event.key == pygame.K_m:
+                    #     roleft3()
+                    # #end of tests
 
                     elif event.key == pygame.K_d:
                         roright()
