@@ -93,13 +93,6 @@ picam2.configure(picam2.create_video_configuration(main={"size": (640, 480)}))
 output = StreamingOutput()
 picam2.start_recording(JpegEncoder(), FileOutput(output))
 
-try:
-    address = ('', 8000)
-    server = StreamingServer(address, StreamingHandler)
-    server.serve_forever()
-finally:
-    picam2.stop_recording()
-
 """
 This section is mainly for the controls of the car
 Will try to get the webstream to be able to get controls of the car
@@ -169,4 +162,16 @@ def start_session():
         print ("\nEnd of program")
         return
 
-start_session()
+
+
+if __name__ == '__main__':
+    # ... (Rest of the code for streaming setup)
+
+    start_session()
+
+    try:
+        address = ('', 8000)
+        server = StreamingServer(address, StreamingHandler)
+        server.serve_forever()
+    finally:
+        picam2.stop_recording()
