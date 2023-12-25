@@ -43,31 +43,27 @@ screen = pygame.display.set_mode((100,100))
 
 PWM = Motor()
 
-def accelerate(speed):
-    speed = [number + 500 for number in speed]
-    print("Accelerate ...")
-    return speed
+def forward():
+    PWM.setMotorModel(1000,1000,1000,1000)
+    print("Forward ...")
+    time.sleep(0.75)
+    PWM.setMotorModel(0,0,0,0)
 
-def deccelerate(speed):
-    speed = [number - 500 for number in speed]
-    print("Deccelerate ...")
-    return speed
+def backward(speed):
+    PWM.setMotorModel(-1000,-1000,-1000,-1000)
+    print("Backward ...")
+    time.sleep(0.75)
+    PWM.setMotorModel(0,0,0,0)
 
-def roleft(speed):
-    speed[0] -= 500
-    speed[1] -= 500
-    speed[2] += 500
-    speed[3] += 500
-    print("Rotate left ...")
-    return speed
+def roleft(degree):
+    PWM.Rotate(degree)
+    print("Rotating {} degrees to the left ... ".format(degree))
+    PWM.setMotorModel(0,0,0,0)
 
-def roright(speed):
-    speed[0] += 500
-    speed[1] += 500
-    speed[2] -= 500
-    speed[3] -= 500
-    print("Rotate right ...")
-    return speed
+def roright(degree):
+    PWM.Rotate(-degree)
+    print("Rotating {} degrees to the left ... ".format(degree))
+    PWM.setMotorModel(0,0,0,0)
 
 def start_session():
 
@@ -82,16 +78,16 @@ def start_session():
             for event in pygame.event.get():
                 if event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_w:
-                        speeds = accelerate(speeds)
+                        forward()
                     
                     elif event.key == pygame.K_s:
-                        speeds = deccelerate(speeds)
+                        backward()
                     
                     elif event.key == pygame.K_a:
-                        speeds = roleft(speeds)
+                        roleft(45)
                     
                     elif event.key == pygame.K_d:
-                        speeds = roright(speeds)
+                        roright(45)
                     
                     elif event.key == pygame.K_q:
                         PWM.setMotorModel(0,0,0,0)
