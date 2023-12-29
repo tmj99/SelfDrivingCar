@@ -34,10 +34,17 @@ def home():
     <html>
     <head>
         <title>Video Stream</title>
+        <style>
+            .video-container {
+                width: 640px;
+                height: 480px;
+                border: 1px solid #000;
+            }
+        </style>
     </head>
     <body>
         <h1>Flask server is running</h1>
-        <video id="video" autoplay>
+        <video id="video" class="video-container" autoplay>
             <source src="/video_feed" type="multipart/x-mixed-replace; boundary=frame">
         </video>
     </body>
