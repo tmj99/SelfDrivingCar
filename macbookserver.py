@@ -18,7 +18,7 @@ udp_socket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
 udp_socket.bind((UDP_IP, UDP_PORT))
 
 # Create a global variable to store the latest video frame
-latest_frame = None
+latest_frame = 'loading.jpg'
 frame_lock = threading.Lock()  # Lock to protect access to latest_frame
 
 # Function to update the latest_frame variable
