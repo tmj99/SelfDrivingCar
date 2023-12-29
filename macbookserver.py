@@ -55,6 +55,9 @@ def generate():
     while True:
         frame = latest_frame
         if frame is not None:
+            # Text Overlay
+            text = "Server will start soon"  # Replace with the text you want to overlay
+            cv2.putText(frame, text, (10, 30), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 255, 0), 2)  # Customize text placement, font, color, etc.
             # Encode the frame as JPEG before sending
             _, jpeg = cv2.imencode('.jpg', frame)
             yield (b'--frame\r\n'
