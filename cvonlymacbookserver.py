@@ -12,8 +12,6 @@ BUFF_SIZE      = 65536
 
 server_socket = socket.socket(socket.AF_INET,socket.SOCK_DGRAM)
 server_socket.setsockopt(socket.SOL_SOCKET,socket.SO_RCVBUF,BUFF_SIZE)
-host_ip = '192.168.1.102'#  socket.gethostbyname(host_name)
-print(host_ip)
 socket_address = (host_ip,port)
 server_socket.bind(socket_address)
 print('Listening at:',socket_address)
