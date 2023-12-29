@@ -9,8 +9,8 @@ from picamera2 import Picamera2
 
 # configure camera
 picam2 = Picamera2()
-WIDTH = 640
-HEIGHT = 480
+WIDTH = 1280
+HEIGHT = 720
 picam2.configure(picam2.create_preview_configuration(main={"format": 'XRGB8888', "size": (WIDTH, HEIGHT)}))
 picam2.start()
 
@@ -30,20 +30,19 @@ print('packet received')
 
 fps, st, frames_to_count, cnt = (0, 0, 20, 0)
 
+# to track total frames
+frame_no = 0
+
 while True:
-    print('in the loop')
     im = picam2.capture_array()
-    print(im.shape)
-    frame = cv2.cvtColor(im, cv2.COLOR_BGR2RGB)
-    print(frame.shape)
+    frame = im # originally was = cv2.cvtColor(im, cv2.COLOR_BGR2RGB)
     if frame.any():  # determine if there are any frames
-        print('Frame exists')
         # new_height = int(frame.shape[0] * (WIDTH / frame.shape[1]))
         # resized_frame = cv2.resize(frame, (WIDTH, new_height))
         encoded, buffer = cv2.imencode('.jpg', frame, [cv2.IMWRITE_JPEG_QUALITY, 80])
         message = base64.b64encode(buffer)
         client_socket.sendto(message, server_addr)
-        print('Video file sent')
+        print(f'Video file sent | Frame Count: {frame_no}\nPacket size: {len(message)} | Frame shape: {frame.shape}')
         frame = cv2.putText(frame, 'FPS: ' + str(fps), (10, 40), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0, 0, 255), 2)
         cv2.imshow('TRANSMITTING VIDEO', frame)
         key = cv2.waitKey(1) & 0xFF
@@ -58,3 +57,4 @@ while True:
             except:
                 pass
         cnt += 1
+        frame_no += 1

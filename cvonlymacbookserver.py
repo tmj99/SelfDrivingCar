@@ -24,12 +24,14 @@ print(msg)
 message = b'You are connected'
 server_socket.sendto(message,client_addr)
 
+# to track total frames
+frame_no = 0
+
 while True:	
 	packet,_ = server_socket.recvfrom(BUFF_SIZE)
-	print(f'Length of packet: {len(packet)}')
 	try:
 		data = base64.b64decode(packet,' /')
-		print(f'Length of data: {len(data)}')
+		print(f'Frame no: {frame_no} | Len of data rcvd: {len(data)}')
 		npdata = np.fromstring(data,dtype=np.uint8)
 		frame = cv2.imdecode(npdata,1)
 		frame = cv2.putText(frame,'FPS: '+str(fps),(10,40),cv2.FONT_HERSHEY_SIMPLEX,0.7,(0,0,255),2)
@@ -46,5 +48,6 @@ while True:
 			except:
 				pass
 		cnt+=1
+		frame_no += 1
 	except:
 		print("Something went wrong")
