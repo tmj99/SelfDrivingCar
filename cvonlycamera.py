@@ -9,8 +9,8 @@ from picamera2 import Picamera2
 
 # configure camera
 picam2 = Picamera2()
-WIDTH = 1280
-HEIGHT = 720
+WIDTH = 854
+HEIGHT = 480
 picam2.configure(picam2.create_preview_configuration(main={"format": 'XRGB8888', "size": (WIDTH, HEIGHT)}))
 picam2.start()
 
