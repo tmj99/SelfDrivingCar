@@ -19,10 +19,17 @@ udp_socket.bind((UDP_IP, UDP_PORT))
 
 # Create a global variable to store the latest video frame
 latest_frame = None
+frame_lock = threading.Lock()  # Lock to protect access to latest_frame
+
+# Function to update the latest_frame variable
+def update_latest_frame(frame):
+    global latest_frame
+    with frame_lock:
+        latest_frame = frame
 
 @app.route('/')
 def home():
-    return render_template('index.html')
+    return "Flask server is running."
 
 @app.route('/video_feed')
 def video_feed():
@@ -39,14 +46,16 @@ def video_feed():
 
 def receive_udp():
     global latest_frame
+    connectMsg = False # initialize connection message
     while True:
         data, addr = udp_socket.recvfrom(buffersize)  # Receive data (adjust buffer size as needed)
-        # print address when connected
-        print(f'Incoming from Client at address: {addr}')
         # Process the received UDP data as video frames
         frame = cv2.imdecode(np.frombuffer(data, dtype=np.uint8), -1)
         latest_frame = frame
-        udp_socket.sendto(bytesToSend, addr)
+        if not connectMsg: # send connection message and print address once when connected
+            udp_socket.sendto(bytesToSend, addr)
+            print(f'Incoming from Client at address: {addr}')
+            connectMsg = True
 
 if __name__ == '__main__':
     # Start a thread to receive UDP packets in the background

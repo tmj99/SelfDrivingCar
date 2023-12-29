@@ -17,9 +17,12 @@ UDP_IP          = "192.168.0.48"
 UDP_PORT        = 8000
 buffersize      = 1024
 
-with socket.socket(socket.AF_INET, socket.SOCK_DGRAM) as sock:
-    sock.connect((UDP_IP, UDP_PORT))
-    stream = sock.makefile("wb")
+udp_socket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+udp_socket.connect((UDP_IP, UDP_PORT))
+stream = udp_socket.makefile("wb")
+data, addr = udp_socket.recvfrom(buffersize)
+print(f'Connected to server: {addr}')
+print(f'Message from server: {data}')
 
 output1 = FileOutput(stream)
 output2 = FileOutput()
