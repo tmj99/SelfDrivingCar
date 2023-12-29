@@ -70,6 +70,7 @@ def receive_udp():
     while True:
         data, addr = udp_socket.recvfrom(buffersize)  # Receive data (adjust buffer size as needed)
         # Process the received UDP data as video frames
+        print(f"Received {len(data)} bytes from {addr}")
         frame = cv2.imdecode(np.frombuffer(data, dtype=np.uint8), -1)
         latest_frame = frame
         if not connectMsg: # send connection message and print address once when connected
