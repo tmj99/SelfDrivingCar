@@ -26,8 +26,9 @@ def receive_udp():
         print(f"Received {len(data)} bytes from {addr}")  # Print status
         frame = cv2.imdecode(np.frombuffer(data, dtype=np.uint8), -1)
 
-        with frame_lock:
-            latest_frame = frame
+        if frame is not None and frame.size > 0:
+            with frame_lock:
+                latest_frame = frame
 
         if not connectMsg:
             udp_socket.sendto(bytesToSend, addr)
@@ -41,9 +42,10 @@ def display_video():
             frame = latest_frame
 
         # Display the frame
-        cv2.imshow('UDP Video Stream', frame)
-        if cv2.waitKey(1) & 0xFF == ord('q'):
-            break
+        if frame is not None and frame.size > 0:
+            cv2.imshow('UDP Video Stream', frame)
+            if cv2.waitKey(1) & 0xFF == ord('q'):
+                break
 
     cv2.destroyAllWindows()
 
