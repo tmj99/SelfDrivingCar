@@ -18,11 +18,11 @@ UDP_PORT        = 8000
 buffersize      = 1024
 
 udp_socket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+print("1")
 udp_socket.connect((UDP_IP, UDP_PORT))
+print("2")
 stream = udp_socket.makefile("wb")
-data, addr = udp_socket.recvfrom(buffersize)
-print(f'Connected to server: {addr}')
-print(f'Message from server: {data}')
+print("3")
 
 output1 = FileOutput(stream)
 output2 = FileOutput()

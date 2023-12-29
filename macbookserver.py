@@ -29,19 +29,32 @@ def update_latest_frame(frame):
 
 @app.route('/')
 def home():
-    return "Flask server is running."
+    return """
+    <!DOCTYPE html>
+    <html>
+    <head>
+        <title>Video Stream</title>
+    </head>
+    <body>
+        <h1>Flask server is running</h1>
+        <video id="video" autoplay>
+            <source src="/video_feed" type="multipart/x-mixed-replace; boundary=frame">
+        </video>
+    </body>
+    </html>
+    """
+
+def generate():
+    while True:
+        frame = latest_frame
+        if frame is not None:
+            # Encode the frame as JPEG before sending
+            _, jpeg = cv2.imencode('.jpg', frame)
+            yield (b'--frame\r\n'
+                    b'Content-Type: image/jpeg\r\n\r\n' + jpeg.tobytes() + b'\r\n')
 
 @app.route('/video_feed')
 def video_feed():
-    def generate():
-        while True:
-            frame = latest_frame
-            if frame is not None:
-                # Encode the frame as JPEG before sending
-                _, jpeg = cv2.imencode('.jpg', frame)
-                yield (b'--frame\r\n'
-                       b'Content-Type: image/jpeg\r\n\r\n' + jpeg.tobytes() + b'\r\n')
-
     return app.response_class(generate(), mimetype='multipart/x-mixed-replace; boundary=frame')
 
 def receive_udp():
