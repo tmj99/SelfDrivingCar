@@ -9,7 +9,7 @@ from picamera2 import Picamera2
 
 # configure camera
 picam2 = Picamera2()
-WIDTH = 854
+WIDTH = 680
 HEIGHT = 480
 picam2.configure(picam2.create_preview_configuration(main={"format": 'XRGB8888', "size": (WIDTH, HEIGHT)}))
 picam2.start()
@@ -35,14 +35,15 @@ frame_no = 0
 
 while True:
     im = picam2.capture_array()
-    frame = im # originally was = cv2.cvtColor(im, cv2.COLOR_BGR2RGB)
+    frame = cv2.cvtColor(im, cv2.COLOR_BGR2RGB)
     if frame.any():  # determine if there are any frames
         # new_height = int(frame.shape[0] * (WIDTH / frame.shape[1]))
         # resized_frame = cv2.resize(frame, (WIDTH, new_height))
         encoded, buffer = cv2.imencode('.jpg', frame, [cv2.IMWRITE_JPEG_QUALITY, 80])
         message = base64.b64encode(buffer)
+        print(f'Packet size: {len(message)} | Frame shape: {frame.shape}')
         client_socket.sendto(message, server_addr)
-        print(f'Video file sent | Frame Count: {frame_no}\nPacket size: {len(message)} | Frame shape: {frame.shape}')
+        print(f'Video file sent | Frame Count: {frame_no}')
         frame = cv2.putText(frame, 'FPS: ' + str(fps), (10, 40), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0, 0, 255), 2)
         cv2.imshow('TRANSMITTING VIDEO', frame)
         key = cv2.waitKey(1) & 0xFF
