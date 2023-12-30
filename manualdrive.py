@@ -92,7 +92,11 @@ picam2.configure(picam2.create_video_configuration(main={"size": picam2.resoluti
 output = StreamingOutput()
 picam2.start_recording(JpegEncoder(), FileOutput(output))
 
-
+def cam_record():
+    print(f"Recording for 30 seconds.")
+    picam2.start_and_record_video("test.mp4", duration=30)
+    print("Recording stopped.")
+    picam2.start_recording(JpegEncoder(), FileOutput(output))
 
 """
 C O N T R O L S
@@ -130,7 +134,13 @@ def start_session():
                     elif event.key == pygame.K_SPACE:
                         PWM.setMotorModel(0,0,0,0)
                         print("Stopping ...")
-
+                    elif event.key == pygame.K_o: # record video for 30 seconds
+                        record_thread = Thread(target=cam_record)
+                        record_thread.start()
+                    elif event.key == pygame.K_q:
+                        print("Ending session ... ")
+                        break
+                        
     except KeyboardInterrupt:
         PWM.setMotorModel(0,0,0,0)
         print ("\nEnd of program")
