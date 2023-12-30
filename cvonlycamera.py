@@ -9,8 +9,8 @@ from picamera2 import Picamera2
 
 # configure camera
 picam2 = Picamera2()
-WIDTH = 680
-HEIGHT = 480
+WIDTH = 1280
+HEIGHT = 720
 picam2.configure(picam2.create_preview_configuration(main={"format": 'XRGB8888', "size": (WIDTH, HEIGHT)}))
 picam2.start()
 
@@ -34,22 +34,22 @@ fps, st, frames_to_count, cnt = (0, 0, 20, 0)
 frame_no = 0
 
 # initialize packet size
-packet_size = 50000
+packet_size = 60000
 
-def send_packet(packet_data):
-    print(f'Packet size: {len(packet_data)}')
+def send_packet(packet_data, packet_number):
     client_socket.sendto(packet_data, server_addr)
-    print(f'Video file sent | Frame Count: {frame_no}')
+    print(f'Packet {packet_number} size: {len(packet_data)} sent')
 
 def split_and_send_image(frame):
     encoded, buffer = cv2.imencode('.jpg', frame, [cv2.IMWRITE_JPEG_QUALITY, 80])
     message = base64.b64encode(buffer)
     total_packets = (len(message) + packet_size - 1) // packet_size
+    print(f'Total vid size: { len(message) } | Frame Count: {frame_no}')
     for i in range(total_packets):
         start_idx = i * packet_size
         end_idx = start_idx + packet_size
         packet_data = message[start_idx:end_idx]
-        send_packet(packet_data)
+        send_packet(packet_data, i)
 
 while True:
     im = picam2.capture_array()
@@ -64,13 +64,13 @@ while True:
         # if key == ord('q'):
         #     client_socket.close()
         #     break
-        
-        if cnt == frames_to_count:
-            try:
-                fps = round(frames_to_count / (time.time() - st))
-                st = time.time()
-                cnt = 0
-            except:
-                pass
-        cnt += 1
+        # ------ for frame counting ------
+        # if cnt == frames_to_count:
+        #     try:
+        #         fps = round(frames_to_count / (time.time() - st))
+        #         st = time.time()
+        #         cnt = 0
+        #     except:
+        #         pass
+        # cnt += 1
         frame_no += 1
