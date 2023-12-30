@@ -33,18 +33,29 @@ fps, st, frames_to_count, cnt = (0, 0, 20, 0)
 # to track total frames
 frame_no = 0
 
-def send_channel(frame, channel_name=""):
+# initialize packet size
+packet_size = 50000
+
+def send_packet(packet_data):
+    print(f'Packet size: {len(packet_data)}')
+    client_socket.sendto(packet_data, server_addr)
+    print(f'Video file sent | Frame Count: {frame_no}')
+
+def split_and_send_image(frame):
     encoded, buffer = cv2.imencode('.jpg', frame, [cv2.IMWRITE_JPEG_QUALITY, 80])
     message = base64.b64encode(buffer)
-    print(f'Packet size: {len(message)} | Frame shape: {frame.shape} | Channel: {channel_name}')
-    client_socket.sendto(message, server_addr)
-    print(f'Video file sent | Frame Count: {frame_no}')
+    total_packets = (len(message) + packet_size - 1) // packet_size
+    for i in range(total_packets):
+        start_idx = i * packet_size
+        end_idx = start_idx + packet_size
+        packet_data = message[start_idx:end_idx]
+        send_packet(packet_data)
 
 while True:
     im = picam2.capture_array()
-    frame = im # cv2.cvtColor(im, cv2.COLOR_BGR2RGB)
-    if frame.any():  # determine if there are any frames
-        send_channel(frame)
+    #frame = im  cv2.cvtColor(im, cv2.COLOR_BGR2RGB)
+    if im.any():  # determine if there are any frames
+        split_and_send_image(im)
         
         # ------ not needed unless testing ------
         # frame = cv2.putText(frame, 'FPS: ' + str(fps), (10, 40), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0, 0, 255), 2)
