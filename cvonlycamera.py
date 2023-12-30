@@ -35,7 +35,7 @@ frame_no = 0
 
 while True:
     im = picam2.capture_array()
-    frame = cv2.cvtColor(im, cv2.COLOR_BGR2RGB)
+    frame = im # cv2.cvtColor(im, cv2.COLOR_BGR2RGB)
     if frame.any():  # determine if there are any frames
         # new_height = int(frame.shape[0] * (WIDTH / frame.shape[1]))
         # resized_frame = cv2.resize(frame, (WIDTH, new_height))
@@ -44,12 +44,15 @@ while True:
         print(f'Packet size: {len(message)} | Frame shape: {frame.shape}')
         client_socket.sendto(message, server_addr)
         print(f'Video file sent | Frame Count: {frame_no}')
-        frame = cv2.putText(frame, 'FPS: ' + str(fps), (10, 40), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0, 0, 255), 2)
-        cv2.imshow('TRANSMITTING VIDEO', frame)
-        key = cv2.waitKey(1) & 0xFF
-        if key == ord('q'):
-            client_socket.close()
-            break
+        
+        # ------ not needed unless testing ------
+        # frame = cv2.putText(frame, 'FPS: ' + str(fps), (10, 40), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0, 0, 255), 2)
+        # cv2.imshow('TRANSMITTING VIDEO', frame)
+        # key = cv2.waitKey(1) & 0xFF
+        # if key == ord('q'):
+        #     client_socket.close()
+        #     break
+        
         if cnt == frames_to_count:
             try:
                 fps = round(frames_to_count / (time.time() - st))
