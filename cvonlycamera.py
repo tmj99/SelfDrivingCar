@@ -33,17 +33,18 @@ fps, st, frames_to_count, cnt = (0, 0, 20, 0)
 # to track total frames
 frame_no = 0
 
+def send_channel(frame, channel_name=""):
+    encoded, buffer = cv2.imencode('.jpg', frame, [cv2.IMWRITE_JPEG_QUALITY, 80])
+    message = base64.b64encode(buffer)
+    print(f'Packet size: {len(message)} | Frame shape: {frame.shape} | Channel: {channel_name}')
+    client_socket.sendto(message, server_addr)
+    print(f'Video file sent | Frame Count: {frame_no}')
+
 while True:
     im = picam2.capture_array()
     frame = im # cv2.cvtColor(im, cv2.COLOR_BGR2RGB)
     if frame.any():  # determine if there are any frames
-        # new_height = int(frame.shape[0] * (WIDTH / frame.shape[1]))
-        # resized_frame = cv2.resize(frame, (WIDTH, new_height))
-        encoded, buffer = cv2.imencode('.jpg', frame, [cv2.IMWRITE_JPEG_QUALITY, 80])
-        message = base64.b64encode(buffer)
-        print(f'Packet size: {len(message)} | Frame shape: {frame.shape}')
-        client_socket.sendto(message, server_addr)
-        print(f'Video file sent | Frame Count: {frame_no}')
+        send_channel(frame)
         
         # ------ not needed unless testing ------
         # frame = cv2.putText(frame, 'FPS: ' + str(fps), (10, 40), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0, 0, 255), 2)
