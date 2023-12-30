@@ -93,8 +93,8 @@ output = StreamingOutput()
 picam2.start_recording(JpegEncoder(), FileOutput(output))
 
 def cam_record():
-    print(f"Recording for 30 seconds.")
-    picam2.start_and_record_video("test.mp4", duration=30)
+    print(f"Recording for 15 seconds.")
+    picam2.start_and_record_video("test.mp4", quality="Quality.VERY_HIGH", duration=15)
     print("Recording stopped.")
     picam2.start_recording(JpegEncoder(), FileOutput(output))
 
@@ -134,7 +134,7 @@ def start_session():
                     elif event.key == pygame.K_SPACE:
                         PWM.setMotorModel(0,0,0,0)
                         print("Stopping ...")
-                    elif event.key == pygame.K_o: # record video for 30 seconds
+                    elif event.key == pygame.K_o: # record video for 15 seconds
                         record_thread = Thread(target=cam_record)
                         record_thread.start()
                     elif event.key == pygame.K_q:
